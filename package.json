@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run build && npm run server",
     "build": "webpack --optimize-minimize",
-    "server": "cd dist && node server"
+    "server": "cd dist && node server",
+    "dev": "webpack-dev-server --hot --inline"
   },
   "author": "Anastasiia Tymchenko",
   "license": "ISC",

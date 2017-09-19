@@ -1,0 +1,44 @@
+@import "../../styles/variables";
+
+.movie-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 20px;
+
+  @media (min-width: @screen-md-min) {
+    width: 33.33%;
+  }
+
+  @media (min-width: @screen-xl-min) {
+    width: 25%;
+  }
+
+  &__img {
+    margin-bottom: 20px;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+  }
+
+  &__title {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__release {
+    padding: 2px 6px 0;
+    border: 1px solid @primary-graphite;
+    border-radius: 3px;
+  }
+
+  &__genre {
+    padding: 0 8px;
+  }
+}

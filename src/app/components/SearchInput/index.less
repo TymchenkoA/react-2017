@@ -1,0 +1,33 @@
+@import "../../styles/variables";
+
+.search-box-textfield {
+  width: 100%;
+  height: 40px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: medium none;
+  border-bottom: 2px solid @dark-red;
+  color: @white;
+  outline: medium none;
+}
+
+input[type="search"].search-box-textfield::-webkit-input-placeholder {
+  color: @white;
+  opacity: 1;
+}
+
+input[type="search"].search-box-textfield:-ms-input-placeholder {
+  color: @white;
+  opacity: 1;
+}
+
+input[type="search"].search-box-textfield:-moz-placeholder {
+  color: @white;
+  opacity: 1;
+}
+
+input[type="search"].search-box-textfield::-moz-placeholder {
+  color: @white;
+  opacity: 1;
+}

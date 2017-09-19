@@ -1,0 +1,18 @@
+.button (@padding-horizontal, @padding-vertical, @background-color, @font-size, @color) {
+  padding: @padding-vertical @padding-horizontal;
+  margin-left: 12px;
+  border: none;
+  border-radius: 3px;
+  background-color: @background-color;
+  color: @color;
+  font-size: @font-size;
+  font-weight: 700;
+  transition: background 0.3s;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &:hover{
+    background-color: darken(@background-color, 5%);
+  }
+}

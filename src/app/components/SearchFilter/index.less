@@ -1,0 +1,21 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.search-box-filter {
+  &__label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+
+  &__button {
+    .button (15px, 8px, @light-grey, 0.85rem, @white);
+
+    &_active {
+      background-color: @dark-red;
+
+      &:hover{
+        background: darken(@dark-red, 5%);
+      }
+    }
+  }
+}
