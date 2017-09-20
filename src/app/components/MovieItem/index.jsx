@@ -9,7 +9,7 @@ export class MovieItem extends Component {
     }
 
     render() {
-        const {title, release, genre, url} = this.props;
+        const {title, release, genre, url} = this.props.data;
 
         return (
             <div className="movie-item">

@@ -65,13 +65,10 @@ export default class App extends Component {
         </header>
         <section className="content-wrapper container">
             <div className="content">
-                {movies.map(({title, release, genre, url}, index) => (
+                {movies.map((item, index) => (
                     <MovieItem
-                    title={title}
-                    release={release}
-                    genre={genre}
-                    url={url}
-                    key={index}
+                        data={item}
+                        key={index}
                     />
                 ))}
             </div>

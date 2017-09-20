@@ -1,8 +1,6 @@
 @import "./variables";
 @import "./mixins";
 
-@import (optional) "../img/header-background.jpg";
-
 html, body {
   height: 100%;
   min-width: 480px;
@@ -36,8 +34,7 @@ html, body {
 .header {
   &-background {
     padding-bottom: 40px;
-    @imagePath: ~"/assets/img/";
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("@{imagePath}header-background.jpg") no-repeat fixed center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../img/header-background.jpg") no-repeat fixed center center;
     background-size: cover;
     color: @white;
   }
