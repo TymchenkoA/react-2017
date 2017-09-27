@@ -1,0 +1,12 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.film-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+
+  & .back-button {
+    .button (15px, 8px, @white, 0.85rem, @dark-red);
+  }
+}

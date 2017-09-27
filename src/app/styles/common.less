@@ -1,5 +1,4 @@
 @import "./variables";
-@import "./mixins";
 
 html, body {
   height: 100%;
@@ -38,10 +37,6 @@ html, body {
     background-size: cover;
     color: @white;
   }
-
-  &__back-button {
-    .button (15px, 8px, @white, 0.85rem, @dark-red);
-  }
 }
 
 .logo-wrapper {
@@ -58,16 +53,23 @@ html, body {
 }
 
 .content-wrapper {
+  position: relative;
   flex: 1 0 auto;
 }
 
 .content {
-  display: flex;
-  flex-wrap: wrap;
-
   @media (min-width: @screen-sm-min) {
     margin-left: -40px;
     margin-right: -40px;
+  }
+
+  &__empty {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    color: @light-grey;
   }
 }
 
@@ -81,5 +83,3 @@ img {
   display: block;
   height: auto;
 }
-
-
