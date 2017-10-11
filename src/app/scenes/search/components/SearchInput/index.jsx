@@ -11,6 +11,7 @@ const SearchInput= (props) => (
         className="search-box-textfield"
         value={props.value}
         onChange={props.onChange}
+        onKeyDown={props.onKeyDown}
     />
 );
 

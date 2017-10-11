@@ -9,7 +9,7 @@ export class MovieBanner extends Component {
     }
 
     render() {
-        const {title, release, url, rating, director, duration} = this.props;
+        const {title, release, url, rating, director, duration, summary, show_cast} = this.props;
 
         return (
             <div className="container">
@@ -23,15 +23,11 @@ export class MovieBanner extends Component {
                         <div>Oscar - winning Movies</div>
                         <div>
                             <span className="movie-banner__release">{release}</span>
-                            <span className="movie-banner__duration">{duration}min</span>
+                            <span className="movie-banner__duration">{duration}</span>
                         </div>
-                        <div className="movie-banner__description">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                        </div>
+                        <div className="movie-banner__description">{summary}</div>
                         <div className="movie-banner__director">Director: {director}</div>
-                        <div className="movie-banner__cast-list">Cast: Uma Turman</div>
+                        <div className="movie-banner__cast-list">Cast: {show_cast}</div>
                     </div>
                 </div>
             </div>

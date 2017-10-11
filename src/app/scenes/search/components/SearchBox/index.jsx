@@ -27,6 +27,7 @@ class SearchBox extends Component {
         this.onValueChange = this.onValueChange.bind(this);
         this.search = this.search.bind(this);
         this.switchFilter = this.switchFilter.bind(this);
+        this.onEnter = this.onEnter.bind(this);
     }
 
     switchFilter(activeButton) {
@@ -43,6 +44,13 @@ class SearchBox extends Component {
         });
     }
 
+    onEnter(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            this.search();
+        }
+    }
+
     search() {
         this.props.history.push(`/search/${this.state.activeButton}/${this.state.value}`);
     }
@@ -53,7 +61,7 @@ class SearchBox extends Component {
         return (
             <div className="search-box container">
                 <div className="search-box__title">Find your movie</div>
-                <SearchInput value={value} onChange={this.onValueChange}/>
+                <SearchInput value={value} onChange={this.onValueChange} onKeyDown={this.onEnter}/>
                 <div className="search-box-filter-wrapper">
                     <SearchFilter
                         options={this.options}

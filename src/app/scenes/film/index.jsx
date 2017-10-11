@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 import { Movies } from '../../components/Movies/index.jsx';
 import { MovieBanner } from './components/MovieBanner/index.jsx';
-import movies from '../../components/Movies/movies.json';
+import {withRouter} from 'react-router-dom';
 
 import './index.less';
 
-import img1 from '../../img/movie1.jpg';
-
-export default class FilmPage extends Component {
+class FilmPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            movie: {},
             movies: []
         }
         this.goBack = this.goBack.bind(this);
     }
 
     componentDidMount() {
-        this.findMovies(this.props.match.params.query);
+        this.getMovie(this.props.match.params)
+            .then(movie => {
+                this.findMovies(movie.director);
+            });
     }
 
-    findMovies(query) {
-        if (!query) {
-            return;
-        }
+    componentWillReceiveProps(nextProps) {
+        this.getMovie(nextProps.match.params);
+    }
 
-        fetch(movies)
+    findMovies(director) {
+         fetch(`https://netflixroulette.net/api/api.php?director=${director}`)
             .then(response => {
                 return response.json();
             })
@@ -37,11 +39,27 @@ export default class FilmPage extends Component {
             })
     }
 
+    getMovie({query}) {
+        return fetch(`https://netflixroulette.net/api/api.php?title=${query}`)
+            .then(response => {
+                return response.json();
+            })
+            .then(result => {
+                this.setState({
+                    movie: result
+                });
+
+                return result;
+            })
+    }
+
     goBack() {
         this.props.history.goBack();
     }
 
     render() {
+        const movie = this.state.movie;
+
         return (
             <div className="film-page">
                 <div className="header">
@@ -51,16 +69,19 @@ export default class FilmPage extends Component {
                             <button type="button" className="back-button" onClick={this.goBack}>Search</button>
                         </div>
                         <MovieBanner
-                            title="A Dog's Purpose"
-                            release={2003}
-                            genre="Comedies"
-                            rating="4.1"
-                            director="Quentin Tarantino"
-                            duration={154}
-                            url={img1}
+                            title={movie.show_title}
+                            release={movie.release_year}
+                            genre={movie.category}
+                            rating={movie.rating}
+                            director={movie.director}
+                            duration={movie.runtime}
+                            url={movie.poster}
+                            summary={movie.summary}
+                            show_cast={movie.show_cast}
                         />
                     </div>
                     <div className="search-results-wrapper">
+                        <div className="container"> Films by {movie.director}</div>
                     </div>
                 </div>
                 <section className="content-wrapper container">
@@ -68,7 +89,10 @@ export default class FilmPage extends Component {
                         <Movies movies={this.state.movies} />
                     </div>
                 </section>
+
             </div>
         );
     }
 }
+
+export default withRouter(FilmPage);
