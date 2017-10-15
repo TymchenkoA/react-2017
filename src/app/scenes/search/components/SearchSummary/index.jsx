@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import SearchResults from '../SearchResults/index.jsx';
 import {Movies} from '../../../../components/Movies/index.jsx';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getMovies} from '../../../../services/movies/actions';
+import {getGenres} from '../../../../services/genres/actions';
+
+import moment from 'moment';
 
 class SearchSummary extends Component {
     constructor(props) {
@@ -16,10 +21,17 @@ class SearchSummary extends Component {
 
     componentDidMount() {
         this.findMovies(this.props.match.params);
+        this.props.getGenresProp();
     }
 
     componentWillReceiveProps(nextProps) {
-        this.findMovies(nextProps.match.params);
+        this.setState({
+            movies: nextProps.movies
+        });
+
+        if (nextProps.match.params.query !== this.props.match.params.query || nextProps.match.params.type !== this.props.match.params.type) {
+            this.findMovies(nextProps.match.params);
+        }
     }
 
     findMovies({type, query}) {
@@ -27,22 +39,14 @@ class SearchSummary extends Component {
             return;
         }
 
-        fetch(`https://netflixroulette.net/api/api.php?${type}=${query}`)
-            .then(response => {
-                return response.json();
-            })
-            .then(result => {
-                if (result.show_title) {
-                    result = [result];
-                }
-                this.setState({
-                    movies: result
-                });
-            })
+        this.props.getMoviesProp(type, query);
     }
 
     sortData(filter) {
         const newMovies = this.state.movies.sort((a,b) => {
+            if (filter == 'release_date') {
+                return moment(a[filter]).year() - moment(b[filter]).year();
+            }
             return parseFloat(a[filter]) - parseFloat(b[filter]);
         });
 
@@ -68,4 +72,17 @@ class SearchSummary extends Component {
     }
 }
 
-export default withRouter(SearchSummary);
+const mapStateToProps = store => (
+    {
+        movies: store.movies
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        getMoviesProp: (type, query) => dispatch(getMovies(type, query)),
+        getGenresProp: () => dispatch(getGenres())
+    }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchSummary));

@@ -13,6 +13,7 @@ module.exports = {
         publicPath: '/',
         filename: "[name].js"
     },
+    devtool: 'cheap-inline-module-source-map',
     module: {
         loaders: [
             {

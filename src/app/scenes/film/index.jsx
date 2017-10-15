@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Movies } from '../../components/Movies/index.jsx';
 import { MovieBanner } from './components/MovieBanner/index.jsx';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getMovieDetails} from '../../services/activeMovie/actions';
+import {findMoviesByGenre} from '../../services/moviesByGenre/actions';
 
 import './index.less';
 
@@ -9,56 +12,36 @@ class FilmPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            movie: {},
-            movies: []
-        }
         this.goBack = this.goBack.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
-    componentDidMount() {
-        this.getMovie(this.props.match.params)
+    getData(props) {
+        props.getMovieDetailsProp(props.activeMovie.id)
             .then(movie => {
-                this.findMovies(movie.director);
+                props.findMoviesByGenreProp(movie.genres[0].id);
             });
     }
 
+    componentDidMount() {
+        this.getData(this.props);
+    }
+
     componentWillReceiveProps(nextProps) {
-        this.getMovie(nextProps.match.params);
-    }
-
-    findMovies(director) {
-         fetch(`https://netflixroulette.net/api/api.php?director=${director}`)
-            .then(response => {
-                return response.json();
-            })
-            .then(result => {
-                this.setState({
-                    movies: result
-                });
-            })
-    }
-
-    getMovie({query}) {
-        return fetch(`https://netflixroulette.net/api/api.php?title=${query}`)
-            .then(response => {
-                return response.json();
-            })
-            .then(result => {
-                this.setState({
-                    movie: result
-                });
-
-                return result;
-            })
+        if (nextProps.match.params.query !== this.props.match.params.query) {
+            this.getData(nextProps);
+        }
     }
 
     goBack() {
-        this.props.history.goBack();
+        //this.props.history.goBack();
+        this.props.history.push('/');
     }
 
     render() {
-        const movie = this.state.movie;
+        const movie = this.props.activeMovie.details || {};
+        const path = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        const genre = this.props.activeMovie.details && this.props.activeMovie.details.genres && this.props.activeMovie.details.genres[0].name;
 
         return (
             <div className="film-page">
@@ -69,24 +52,22 @@ class FilmPage extends Component {
                             <button type="button" className="back-button" onClick={this.goBack}>Search</button>
                         </div>
                         <MovieBanner
-                            title={movie.show_title}
-                            release={movie.release_year}
-                            genre={movie.category}
-                            rating={movie.rating}
-                            director={movie.director}
+                            title={movie.title}
+                            release={movie.release_date}
+                            rating={movie.vote_average}
                             duration={movie.runtime}
-                            url={movie.poster}
-                            summary={movie.summary}
-                            show_cast={movie.show_cast}
+                            url={path}
+                            summary={movie.overview}
+                            production={movie.production_countries}
                         />
                     </div>
                     <div className="search-results-wrapper">
-                        <div className="container"> Films by {movie.director}</div>
+                        <div className="container"> Films by genre: {genre}</div>
                     </div>
                 </div>
                 <section className="content-wrapper container">
                     <div className="content">
-                        <Movies movies={this.state.movies} />
+                        <Movies movies={this.props.moviesByGenre} />
                     </div>
                 </section>
 
@@ -95,4 +76,18 @@ class FilmPage extends Component {
     }
 }
 
-export default withRouter(FilmPage);
+const mapStateToProps = store => (
+    {
+        activeMovie: store.activeMovie,
+        moviesByGenre: store.moviesByGenre
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        getMovieDetailsProp: (id) => dispatch(getMovieDetails(id)),
+        findMoviesByGenreProp: (genre) => dispatch(findMoviesByGenre(genre))
+    }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(FilmPage));

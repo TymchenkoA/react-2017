@@ -9,7 +9,8 @@ export class MovieBanner extends Component {
     }
 
     render() {
-        const {title, release, url, rating, director, duration, summary, show_cast} = this.props;
+        const {title, release, url, rating, duration, summary} = this.props;
+        const production = this.props.production && this.props.production[0].name;
 
         return (
             <div className="container">
@@ -23,11 +24,10 @@ export class MovieBanner extends Component {
                         <div>Oscar - winning Movies</div>
                         <div>
                             <span className="movie-banner__release">{release}</span>
-                            <span className="movie-banner__duration">{duration}</span>
+                            <span className="movie-banner__duration">{duration} min</span>
                         </div>
                         <div className="movie-banner__description">{summary}</div>
-                        <div className="movie-banner__director">Director: {director}</div>
-                        <div className="movie-banner__cast-list">Cast: {show_cast}</div>
+                        <div className="movie-banner__cast-list">Production country: {production}</div>
                     </div>
                 </div>
             </div>

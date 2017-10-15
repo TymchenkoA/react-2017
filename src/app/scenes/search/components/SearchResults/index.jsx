@@ -9,10 +9,10 @@ class SearchResults extends Component {
 
         this.options = [
             {
-                value: 'release_year',
+                value: 'release_date',
                 label: 'release date'
             }, {
-                value: 'rating',
+                value: 'vote_average',
                 label: 'rating'
             }
         ];
