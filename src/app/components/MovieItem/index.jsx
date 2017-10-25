@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {setActiveMovieId} from '../../services/activeMovie/actions';
 
 import './index.less';
 
@@ -14,8 +13,7 @@ class MovieItem extends Component {
     }
 
     goToDetails() {
-        this.props.history.push(`/film/${this.props.data.title}`);
-        this.props.setActiveMovieIdProp(this.props.data.id);
+        this.props.history.push(`/film/${this.props.data.id}`);
     }
 
     getGenreName(ids) {
@@ -53,10 +51,4 @@ const mapStateToProps = store => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
-    {
-        setActiveMovieIdProp: (id) => dispatch(setActiveMovieId(id))
-    }
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MovieItem));
+export default connect(mapStateToProps)(withRouter(MovieItem));

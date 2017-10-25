@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SearchResults from '../SearchResults/index.jsx';
 import {Movies} from '../../../../components/Movies/index.jsx';
 import {withRouter} from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getMovies} from '../../../../services/movies/actions';
 import {getGenres} from '../../../../services/genres/actions';
@@ -21,16 +22,19 @@ class SearchSummary extends Component {
 
     componentDidMount() {
         this.findMovies(this.props.match.params);
-        this.props.getGenresProp();
+        this.props.getGenres();
     }
 
     componentWillReceiveProps(nextProps) {
+        const params = this.props.match.params;
+        const nextParams = nextProps.match.params;
+
         this.setState({
             movies: nextProps.movies
         });
 
-        if (nextProps.match.params.query !== this.props.match.params.query || nextProps.match.params.type !== this.props.match.params.type) {
-            this.findMovies(nextProps.match.params);
+        if (nextParams.query !== params.query || nextParams.type !== params.type) {
+            this.findMovies(nextParams);
         }
     }
 
@@ -39,7 +43,7 @@ class SearchSummary extends Component {
             return;
         }
 
-        this.props.getMoviesProp(type, query);
+        this.props.getMovies(type, query);
     }
 
     sortData(filter) {
@@ -78,11 +82,11 @@ const mapStateToProps = store => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
-    {
-        getMoviesProp: (type, query) => dispatch(getMovies(type, query)),
-        getGenresProp: () => dispatch(getGenres())
-    }
-);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        getMovies,
+        getGenres
+    }, dispatch);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SearchSummary));

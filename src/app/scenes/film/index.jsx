@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Movies } from '../../components/Movies/index.jsx';
 import { MovieBanner } from './components/MovieBanner/index.jsx';
 import {withRouter} from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getMovieDetails} from '../../services/activeMovie/actions';
 import {findMoviesByGenre} from '../../services/moviesByGenre/actions';
@@ -17,9 +18,9 @@ class FilmPage extends Component {
     }
 
     getData(props) {
-        props.getMovieDetailsProp(props.activeMovie.id)
+        props.getMovieDetails(props.match.params.query)
             .then(movie => {
-                props.findMoviesByGenreProp(movie.genres[0].id);
+                props.findMoviesByGenre(movie.genres[0].id);
             });
     }
 
@@ -41,7 +42,7 @@ class FilmPage extends Component {
     render() {
         const movie = this.props.activeMovie.details || {};
         const path = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-        const genre = this.props.activeMovie.details && this.props.activeMovie.details.genres && this.props.activeMovie.details.genres[0].name;
+        const genre = movie && movie.genres && movie.genres[0].name;
 
         return (
             <div className="film-page">
@@ -83,11 +84,11 @@ const mapStateToProps = store => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
-    {
-        getMovieDetailsProp: (id) => dispatch(getMovieDetails(id)),
-        findMoviesByGenreProp: (genre) => dispatch(findMoviesByGenre(genre))
-    }
-);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        getMovieDetails,
+        findMoviesByGenre
+    }, dispatch);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(FilmPage));
