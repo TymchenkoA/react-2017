@@ -9,7 +9,7 @@ import {findMoviesByGenre} from '../../services/moviesByGenre/actions';
 
 import './index.less';
 
-class FilmPage extends Component {
+export class FilmPage extends Component {
     constructor(props) {
         super(props);
 
@@ -17,20 +17,20 @@ class FilmPage extends Component {
         this.getData = this.getData.bind(this);
     }
 
-    getData(props) {
-        props.getMovieDetails(props.match.params.query)
+    getData({query}) {
+        this.props.getMovieDetails(query)
             .then(movie => {
-                props.findMoviesByGenre(movie.genres[0].id);
+                this.props.findMoviesByGenre(movie.genres[0].id);
             });
     }
 
     componentDidMount() {
-        this.getData(this.props);
+        this.getData(this.props.match.params);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.match.params.query !== this.props.match.params.query) {
-            this.getData(nextProps);
+            this.getData(nextProps.match.params);
         }
     }
 

@@ -3,7 +3,7 @@ import SearchFilterItem from '../SearchFilterItem/index.jsx';
 
 import './index.less';
 
-class SearchFilter extends Component {
+export class SearchFilter extends Component {
     constructor(props) {
         super(props);
 

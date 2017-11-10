@@ -19,7 +19,18 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        ['env', {
+                            modules: false,
+                            targets: {
+                                browsers: ['last 3 versions', 'ie >= 11']
+                            },
+                            useBuiltIns: true
+                        }]
+                    ]
+                }
             },
             {
                 test: /\.less$/,

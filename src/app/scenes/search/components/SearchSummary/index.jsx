@@ -9,7 +9,7 @@ import {getGenres} from '../../../../services/genres/actions';
 
 import moment from 'moment';
 
-class SearchSummary extends Component {
+export class SearchSummary extends Component {
     constructor(props) {
         super(props);
 
@@ -38,12 +38,12 @@ class SearchSummary extends Component {
         }
     }
 
-    findMovies({type, query}) {
-        if (!type || !query) {
+    findMovies({query}) {
+        if (!query) {
             return;
         }
 
-        this.props.getMovies(type, query);
+        this.props.getMovies(query);
     }
 
     sortData(filter) {

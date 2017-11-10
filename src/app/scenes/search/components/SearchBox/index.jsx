@@ -6,7 +6,7 @@ import SearchFilter from '../SearchFilter/index.jsx';
 
 import './index.less';
 
-class SearchBox extends Component {
+export class SearchBox extends Component {
     constructor(props) {
         super(props);
 
