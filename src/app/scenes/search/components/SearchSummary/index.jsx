@@ -5,7 +5,6 @@ import {withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getMovies} from '../../../../services/movies/actions';
-import {getGenres} from '../../../../services/genres/actions';
 
 import moment from 'moment';
 
@@ -14,15 +13,14 @@ export class SearchSummary extends Component {
         super(props);
 
         this.state = {
-            movies: []
-        }
+            movies: props.movies || []
+        };
 
         this.sortData = this.sortData.bind(this);
     }
 
     componentDidMount() {
         this.findMovies(this.props.match.params);
-        this.props.getGenres();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -48,7 +46,7 @@ export class SearchSummary extends Component {
 
     sortData(filter) {
         const newMovies = this.state.movies.sort((a,b) => {
-            if (filter == 'release_date') {
+            if (filter === 'release_date') {
                 return moment(a[filter]).year() - moment(b[filter]).year();
             }
             return parseFloat(a[filter]) - parseFloat(b[filter]);
@@ -84,8 +82,7 @@ const mapStateToProps = store => (
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        getMovies,
-        getGenres
+        getMovies
     }, dispatch);
 };
 

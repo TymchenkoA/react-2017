@@ -4,7 +4,11 @@ import App from './index';
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
 
-import store from './store';
+import configureStore from './store';
+
+const store = configureStore(window.PRELOADED_STATE);
+
+delete window.PRELOADED_STATE;
 
 ReactDOM.render((
     <Provider store={store}>

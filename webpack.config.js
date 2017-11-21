@@ -2,14 +2,49 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const nodeExternals = require('webpack-node-externals');
-module.exports = {
+const nodeExternals = require('webpack-node-externals');
+module.exports = [
+    {
+        entry: './src/server.js',
+
+        output: {
+            path: path.join(__dirname, "dist"),
+            filename: 'server.js',
+            publicPath: '/'
+        },
+
+        target: 'node',
+
+        externals: nodeExternals(),
+
+        module: {
+            loaders: [
+                {
+                    test: /\.(js|jsx)$/,
+                    loader: 'babel-loader'
+                },
+                {
+                    test: /\.less$/,
+                    use: 'null-loader'
+                },
+                {
+                    test: /\.(jpe?g|png|gif|svg)$/i,
+                    use: 'null-loader'
+                }
+            ]
+        },
+
+        resolve: {
+            extensions: ['*', '.js', '.jsx', '.json']
+        }
+    },
+    {
     context: path.join(__dirname, 'src', 'app'),
     entry: {
         bundle: "./browser"
     },
     output: {
-        path: path.join(__dirname, "mock-server", "assets"),
+        path: path.join(__dirname, "dist", "assets"),
         publicPath: '/',
         filename: "[name].js"
     },
@@ -43,7 +78,7 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|svg|json)$/i,
                 loader: 'file-loader',
                 options: {
-                    name: '[path][name].[ext]'
+                    name: '[path][name].[ext]',
                     //publicPath: 'assets/'
                 }
             }
@@ -63,4 +98,4 @@ module.exports = {
     devServer: {
         historyApiFallback: true
     }
-};
+}];

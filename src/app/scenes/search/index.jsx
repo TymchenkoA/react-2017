@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import SearchBox from './components/SearchBox/index.jsx';
 import SearchSummary from './components/SearchSummary/index.jsx';
+import { getGenres } from '../../services/genres/actions';
 
 import './index.less';
 
 export default class SearchPage extends Component {
+    static fetchData (dispatch) {
+        return dispatch(getGenres());
+    }
+
     render() {
         const {type, query} = this.props.match.params;
 

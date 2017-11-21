@@ -24,6 +24,13 @@ export class FilmPage extends Component {
             });
     }
 
+    static fetchData (dispatch, match) {
+        return dispatch(getMovieDetails(match.params.query))
+            .then(movie => {
+                findMoviesByGenre(movie.genres[0].id);
+            });
+    }
+
     componentDidMount() {
         this.getData(this.props.match.params);
     }

@@ -1,4 +1,3 @@
-import { SET_ACTIVE_MOVIE_ID } from './actions';
 import { UPDATE_MOVIE_DETAILS } from './actions';
 
 export default function (state = {}, action) {
